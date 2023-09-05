@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Рассчитать 11 месяцев</title>
+</head>
+<style>
+    .wrapper {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 20px;
+    }
+</style>
+
+<body>
+    <div class="wrapper">
+        <h1>Рассчет 11 месяцев:</h1>
+        <input type="date" name="duration" id="start" />
+        <p>11 месяцев наступит:</p>
+        <input type="date" name="duration" id="end" />
+
+    </div>
+</body>
+<script>
+    const start = document.querySelector('#start');
+    start.addEventListener('input', () => {
+        let date = start.valueAsDate;
+
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let nMonth = month + 11;
+
+        console.log(year, 'year');
+        console.log(month, 'month');
+        console.log(nMonth, 'nMonth');
+
+        if (nMonth > 12) {
+            year += 1;
+            nMonth = nMonth - 12;
+        }
+
+        console.log(year, 'year');
+        console.log(month, 'month');
+        console.log(nMonth, 'nMonth');
+
+        let days = findEndOfMonth(year, nMonth);
+
+        console.log(year, 'year');
+        console.log(nMonth, 'nMonth');
+        console.log(days, 'days');
+
+        let end = new Date(`${year}-${nMonth}-${days}`);
+
+        if (nMonth < 10) {
+            nMonth = `0${nMonth}`;
+
+            console.log(nMonth, 'nMonthnMonthv');
+        }
+
+        console.log(end);
+        const endInput = document.querySelector('#end');
+        endInput.value = `${year}-${nMonth}-${days}`;
+    });
+
+    function isLeap(year) {
+        if ((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    function findEndOfMonth(year, month) {
+        let leap = isLeap(year);
+
+        // январь, февраль, март, апрель, май, июнь, июль, август, сентябрь, октябрь, ноябрь, декабрь
+
+        // let endsOfMonth = [31, 28(29), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+        console.log(leap);
+
+        switch (month) {
+            case 2:
+                return leap ? 29 : 28;
+            case 4:
+            case 6:
+            case 9:
+            case 11:
+                return 30;
+            default:
+                return 31;
+        }
+    }
+</script>
+
+</html>
